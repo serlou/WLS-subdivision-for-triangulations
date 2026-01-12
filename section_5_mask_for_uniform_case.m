@@ -16,7 +16,7 @@ basis = sym([1,0; 0,1]);
 % equilateral grid:
 % basis = [1,0; 0.5,sqrt(sym(3))/2];
 
-A = compute_mask(w,L,L_stencil,basis);
+A = compute_mask(w,L,L_stencil,basis,true);
 
 pretty(A);
 latex(A)

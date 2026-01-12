@@ -16,3 +16,4 @@ figure_10e_bsplines_error
 figure_10f_scheme
 figure_11_sphere
 section_5_mask_for_uniform_case
+table_1

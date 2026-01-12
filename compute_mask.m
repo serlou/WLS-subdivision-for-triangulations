@@ -1,4 +1,7 @@
-function A = compute_mask(w,L,L_stencil,basis)
+function A = compute_mask(w,L,L_stencil,basis,draw)
+    if nargin < 5
+        draw = false;
+    end
     
     ind = [
     0,0
@@ -19,7 +22,7 @@ function A = compute_mask(w,L,L_stencil,basis)
     close all;
     for j = 1:length(insertion_point)
         
-        [stencil,a] = define_weighted(insertion_point(:,j),w,L,L_stencil,basis);
+        [stencil,a] = define_weighted(insertion_point(:,j),w,L,L_stencil,basis,draw);
         
         for i = 1:length(stencil)
             i1 = of-2*stencil(1,i)+ind(1,j);
@@ -35,7 +38,7 @@ function A = compute_mask(w,L,L_stencil,basis)
     A = simplify(A(min1:max1,min2:max2));
 end
 
-function [stencil_0,a] = define_weighted(insertion_point,w,L,L_stencil,base)
+function [stencil_0,a] = define_weighted(insertion_point,w,L,L_stencil,base,draw)
     if ~iscolumn(insertion_point)
         insertion_point = insertion_point';
     end
@@ -57,10 +60,12 @@ function [stencil_0,a] = define_weighted(insertion_point,w,L,L_stencil,base)
         W(i,i) = w(norm(stencil(:,i))/L);
     end
     
-    figure('Position',[0 0 1200 800]);
-    plot(stencil(1,:),stencil(2,:),'*')
-    hold on;
-    plot(insertion_point(1),insertion_point(2),'ok','MarkerSize',10)
+    if draw
+        figure('Position',[0 0 1200 800]);
+        plot(stencil(1,:),stencil(2,:),'*')
+        hold on;
+        plot(insertion_point(1),insertion_point(2),'ok','MarkerSize',10)
+    end
     
     a = sym(zeros(1,n));
     for i = 1:n
@@ -71,10 +76,14 @@ function [stencil_0,a] = define_weighted(insertion_point,w,L,L_stencil,base)
         
         coef = transpose(A)*W*A\(transpose(A)*W*data');
         a(i) = simplify(coef(1));
-        if all(isreal(stencil))
-            text(stencil(1,i),stencil(2,i),['$$',latex(a(i)),'$$'],'Interpreter', 'latex', 'FontSize', 8);
+        if draw
+            if all(isreal(stencil))
+                text(stencil(1,i),stencil(2,i),['$$',latex(a(i)),'$$'],'Interpreter', 'latex', 'FontSize', 8);
+            end
         end
     end
-    axis(double([-L_stencil-1,L_stencil+1,-L_stencil-1,L_stencil+1]))
-    axis equal;
+    if draw
+        axis(double([-L_stencil-1,L_stencil+1,-L_stencil-1,L_stencil+1]))
+        axis equal;
+    end
 end

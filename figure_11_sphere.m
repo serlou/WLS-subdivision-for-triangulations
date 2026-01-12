@@ -21,4 +21,6 @@ for i=1:N
     L = L/2;
 end
 utils().generate_figures(vertices, faces,vertices_0,faces_0,1,save_results,filename,N);
-save([filename,'_',num2str(N),'iter'],'vertices','faces')
+if save_results
+    save([filename,'_',num2str(N),'iter'],'vertices','faces');
+end
