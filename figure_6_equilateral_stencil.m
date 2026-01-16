@@ -13,8 +13,19 @@ centers = [0, 0, 0;
 
 ori = 'rhvd';
 
+labels{1}={'c','c','c','f','c','c','c'};
+labels{2}={'b','d','b','a','e','e','a','b','d','b'};
+labels{3}={'a','b','b','e','d','d','e','b','b','a'};
+labels{4}={'b','a','d','e','b','b','e','d','a','b'};
+
+for i=1:length(labels)
+    for j=1:length(labels{i})
+        labels{i}{j} = ['$',labels{i}{j},'$'];
+    end
+end
+
 for i = 1:size(centers, 2)
     center = centers(:, i);
-    utils().make_figure_ring(vertices, faces, center, radius);
-    utils().make_draw_ring(['graphics/equilateral_ring_',ori(i)], vertices, faces, center, radius);
+    utils().make_figure_ring(vertices, faces, center, radius,labels{i});
+    utils().make_draw_ring(['graphics/equilateral_ring_',ori(i)], vertices, faces, center, radius,labels{i});
 end

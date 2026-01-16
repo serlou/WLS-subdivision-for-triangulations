@@ -2,7 +2,7 @@
 
 clear; close all;
 load('datasets/dataset2.mat')
-save_results = true;
+save_results = false;
 
 vertices = vertices_0;
 faces_0 = faces;
