@@ -26,7 +26,13 @@ h = utils().new_figure();
 utils().plotMesh(vertices_0, faces_0);
 utils().apply_format(h,true,1);
 if save_results
-    utils().my_saveas(h,['graphics/grafica4_sin_cos_',num2str(0),'iter']); %#ok<*UNRCH> 
+    utils().my_saveas(h,['graphics/grafica4_sin_cos_0iter']); %#ok<*UNRCH> 
+end
+h = utils().new_figure();
+scatter3(vertices_0(1,:),vertices_0(2,:),vertices_0(3,:),25,'filled');
+utils().apply_format(h,true,0);
+if save_results
+    utils().my_saveas(h,['graphics/grafica4_sin_cos_0iter_dots']);
 end
 h = utils().new_figure();
 utils().plotMesh(vertices, faces);

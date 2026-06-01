@@ -108,7 +108,7 @@ end
 function [q] = RuleSVD(v,center,L,weight)
     v = v-center;
     [U,~,~] = svd(v);
-    v_svd = U\v;
+    v_svd = U'*v;
     % plot3(v_svd(1,:),v_svd(2,:),v_svd(3,:),'.');
     % assert(all(abs(sqrt(sum(v_svd.^2,1))-sqrt(sum(v.^2,1)))<1e-14));    
     

@@ -15,11 +15,16 @@ faces_0 = faces;
 weight = @(x) 1-x;
 L = 0.6;
 
+diameter = utils().triangulation_diameter(vertices_0, faces_0);
+disp(['diameter = ', num2str(diameter)]);
+
 N=5;
+tic;
 for i=1:N
     [vertices, faces] = RegressionSubdivision(vertices, faces, L, weight,'svd');
     L = L/2;
 end
+toc
 utils().generate_figures(vertices, faces,vertices_0,faces_0,1,save_results,filename,N);
 if save_results
     save([filename,'_',num2str(N),'iter'],'vertices','faces');

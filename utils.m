@@ -44,7 +44,8 @@ u.locfit = @locfit;
 u.predict = @predict;
 u.distance_matrix = @distance_matrix;
 u.bspline_basis = @bspline_basis;
-u.get_noise_reduction_coefficient = @get_noise_reduction_coefficient
+u.get_noise_reduction_coefficient = @get_noise_reduction_coefficient;
+u.triangulation_diameter = @triangulation_diameter;
 end
 
 function apply_format(h,grid_on,num_grafica)
@@ -58,6 +59,10 @@ axis tight;
 axis square;
 axis off;
 view(3);
+
+if num_grafica < 1
+    return
+end
 
 if grid_on
     h.Children(1).Children(1).LineWidth = 2;
@@ -455,6 +460,26 @@ for i=1:size(faces,2)
     dist23 = norm(v2-v3);
     L = max(L,max([dist12,dist13,dist23]));
 end
+end
+
+function diameter = triangulation_diameter(vertices, faces)
+% Maximum Euclidean distance between vertices connected by a mesh edge.
+if size(faces, 1) == 3
+    F = faces';
+elseif size(faces, 2) == 3
+    F = faces;
+else
+    error('faces must be a 3xN or Nx3 triangulation matrix.');
+end
+
+edges = [F(:, [1, 2]); F(:, [2, 3]); F(:, [3, 1])];
+edges = sort(edges, 2);
+edges = unique(edges, 'rows');
+
+P1 = vertices(:, edges(:, 1));
+P2 = vertices(:, edges(:, 2));
+edge_lengths = sqrt(sum((P1 - P2).^2, 1));
+diameter = max(edge_lengths);
 end
 
 function [Einf,E2] = measure_errors(vertices, F)
